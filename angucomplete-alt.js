@@ -42,12 +42,14 @@
         var TEXT_SEARCHING = 'Searching...';
         var TEXT_NORESULTS = 'No results found';
         var TEMPLATE_URL = '/angucomplete-alt/index.html';
+        var TEXT_TITLE = '';
 
         // Set the default template for this directive
         $templateCache.put(TEMPLATE_URL,
             '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
             '  <textarea id="{{id}}_value" name="{{inputName}}" tabindex="{{fieldTabindex}}" ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
             '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown && localData.length>0">' +
+            '    <div class="angucomplete-header" ng-bind="textTitle" ng-show="results.length>0"></div>' +
             '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
             '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
             '    <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{\'angucomplete-selected-row\': $index == currentIndex}">' +
@@ -754,6 +756,7 @@
 
             // set strings for "Searching..." and "No results"
             scope.textSearching = attrs.textSearching ? attrs.textSearching : TEXT_SEARCHING;
+            scope.textTitle = attrs.textTitle ? attrs.textTitle : TEXT_TITLE;
             scope.textNoResults = attrs.textNoResults ? attrs.textNoResults : TEXT_NORESULTS;
             displaySearching = scope.textSearching === 'false' ? false : true;
             displayNoResults = scope.textNoResults === 'false' ? false : true;
@@ -794,6 +797,7 @@
                 type: '@',
                 placeholder: '@',
                 textSearching: '@',
+                textTitle: '@',
                 textNoResults: '@',
                 remoteUrl: '@',
                 remoteUrlDataField: '@',
